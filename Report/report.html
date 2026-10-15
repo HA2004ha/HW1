@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="utf-8">
+<title>گزارش کار طراحی بازی کامپیوتری - نئون رانر</title>
+<style>
+  @page { size: A4; margin: 14mm 13mm; }
+  * { box-sizing: border-box; }
+  body {
+    font-family: 'Vazirmatn', 'Noto Naskh Arabic', sans-serif;
+    font-size: 11.5pt; line-height: 2.05; color: #17122b; margin: 0;
+  }
+  h1, h2, h3 { font-family: 'Vazirmatn', 'Noto Kufi Arabic', sans-serif; color: #24114a; margin: 0 0 6pt; }
+  h1 { font-size: 26pt; }
+  h2 { font-size: 16pt; border-right: 5pt solid #ff2e88; padding-right: 9pt; margin-top: 20pt; }
+  h3 { font-size: 12.5pt; color: #3d1f6e; margin-top: 12pt; }
+  p { margin: 0 0 7pt; text-align: justify; }
+  .ltr { direction: ltr; unicode-bidi: isolate; font-family: 'DejaVu Sans Mono', monospace; font-size: 9.6pt; }
+  code { direction: ltr; unicode-bidi: isolate; font-family: 'DejaVu Sans Mono', monospace; font-size: 9.6pt;
+         background: #f2eefb; padding: 0 3pt; border-radius: 3pt; }
+  table { width: 100%; border-collapse: collapse; margin: 8pt 0 12pt; font-size: 10.2pt; }
+  th { background: #24114a; color: #fff; padding: 5pt 7pt; text-align: right; font-weight: 600; }
+  td { border-bottom: 0.6pt solid #d9d0ee; padding: 5pt 7pt; vertical-align: top; }
+  tr:nth-child(even) td { background: #f7f4fd; }
+  .cover { text-align: center; padding-top: 40pt; page-break-after: always; }
+  .cover .band { background: linear-gradient(135deg,#24114a,#3d1f6e 55%,#ff2e88); color:#fff;
+                 padding: 26pt 12pt; border-radius: 10pt; margin-bottom: 22pt; }
+  .cover .band h1 { color: #fff; margin: 0; font-size: 30pt; letter-spacing: 1pt; }
+  .cover .band .sub { color: #ffe9f4; font-size: 13pt; margin-top: 6pt; }
+  .cover .meta { display: inline-block; text-align: right; font-size: 12pt; margin-top: 8pt; }
+  .cover .meta div { margin-bottom: 4pt; }
+  .page { page-break-after: always; }
+  .note { background: #fff7e6; border-right: 4pt solid #ffc75c; padding: 7pt 10pt; margin: 9pt 0; font-size: 10.5pt; }
+  .shot { width: 100%; border: 1pt solid #cbbde8; border-radius: 6pt; margin-bottom: 4pt; }
+  figure { margin: 0 0 13pt; page-break-inside: avoid; }
+  figcaption { font-size: 10pt; color: #4a3a72; text-align: center; }
+  .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 5pt 9pt; }
+  .gallery { break-before: page; }
+  .gallery h2 { margin-top: 0; }
+  .grid figure { margin: 0; }
+  .grid figcaption { line-height: 1.3; font-size: 9.2pt; }
+  ul { margin: 0 0 8pt; padding-right: 16pt; }
+  li { margin-bottom: 2pt; }
+  .ok { color: #0a7a4f; font-weight: 700; }
+  .kv { width: 100%; font-size: 10.2pt; }
+  footer { margin-top: 16pt; font-size: 9.5pt; color: #6b5f8a; border-top: 0.8pt solid #d9d0ee; padding-top: 6pt; }
+</style>
+</head>
+<body>
+
+<div class="cover">
+  <div class="band">
+    <h1>NEON RUNNER</h1>
+    <div class="sub">بازی بدون‌پایان به سبک دوندهٔ دایناسور کروم</div>
+  </div>
+  <div class="meta">
+    <div><b>درس:</b> طراحی بازی‌های کامپیوتری</div>
+    <div><b>تکلیف:</b> اول - پیاده‌سازی در یونیتی</div>
+    <div><b>موتور بازی:</b> <span class="ltr">Unity 6000.6.3f1</span> با <span class="ltr">2D URP</span></div>
+    <div><b>نام دانشجو:</b> حسین عسکری</div>
+    <div><b>شماره دانشجویی:</b> ۴۰۱۵۲۱۴۲۶</div>
+    <div><b>مخزن گیت‌هاب:</b> <span class="ltr">https://github.com/HA2004ha/HW1</span></div>
+  </div>
+</div>
+
+<div class="page">
+<h2>۱. خلاصهٔ کار</h2>
+<p>این پروژه یک بازی بی‌پایان (Endless Runner) دوبعدی با حال‌وهوای سنت‌ویو است که در آن به‌جای حرکت دوربین، لایه‌های پس‌زمینه و اشیای جاده جابه‌جا می‌شوند. بازیکن یک دوندهٔ سایبرپانک را کنترل می‌کند که باید از موانع زمینی و هوایی رد شود، سکه جمع کند و تا جایی که سه جان دارد دویده باشد. سرعت جهان با گذشت زمان از ۹ تا ۲۱ واحد در ثانیه بالا می‌رود، پس بازی به‌طور طبیعی سخت‌تر می‌شود.</p>
+<p>همهٔ ورودی‌ها از طریق بستهٔ <span class="ltr">Input System</span> جدید و تنها از یک مدیر ورودی متمرکز خوانده می‌شوند؛ هیچ کجای پروژه از کلاس قدیمی <span class="ltr">Input</span> استفاده نشده است. تمام دارایی‌های گرافیکی (۳۳ اسپرایت)، شش کلیپ انیمیشن، هشت پریفب و خودِ صحنهٔ بازی هم توسط اسکریپت‌های ویرایشگر به‌صورت کد تولید می‌شوند، بنابراین کل پروژه با یک فرمان از صفر بازسازی شدنی است.</p>
+
+<h2>۲. پوشش الزامات تکلیف</h2>
+<table>
+  <tr><th style="width:26%">الزام</th><th style="width:38%">پیاده‌سازی</th><th>کجا</th></tr>
+  <tr><td>پس‌زمینهٔ بی‌پایان با پارالاکس</td><td>شش الیه با ضریب سرعت مجزا؛ پنج تای آن‌ها روی یک حلقهٔ تایل‌شونده حرکت می‌کنند و آسمان ثابت می‌ماند</td><td><span class="ltr">ParallaxLayer.cs, WorldController.cs</span></td></tr>
+  <tr><td>ورودی فقط با سیستم جدید و مدیر ورودی</td><td><span class="ltr">InputActionAsset</span> با دو نقشهٔ <span class="ltr">Gameplay</span> و <span class="ltr">UI</span> و یک کلاس مسئول همهٔ اکشن‌ها</td><td><span class="ltr">GameInputManager.cs</span></td></tr>
+  <tr><td>سه جان با نوار سلامت</td><td>نوار سلامت + سه قلب، پنجرهٔ مصونیت و چشمک‌زدن بعد از هر برخورد</td><td><span class="ltr">PlayerHealth.cs, HudController.cs</span></td></tr>
+  <tr><td>پرش با Space و داش با Shift</td><td>پرش با ارتفاع متغیر، کویوت‌تایم و بافر پرش؛ داش ۰٫۱۶ ثانیه‌ای</td><td><span class="ltr">PlayerCharacter.cs</span></td></tr>
+  <tr><td>آسیب دیدن و بازیِ تمام</td><td>تماس با مانع آسیب می‌زند؛ در صفر جان، آهسته‌شدن زمان و سپس پنل پایان</td><td><span class="ltr">GameManager.cs</span></td></tr>
+  <tr><td>طراحی شیءگرا با پایهٔ Interactable</td><td>پنج نوع مانع و یک جمع‌کردنی، همه از یک پایهٔ انتزاعی</td><td>بخش ۴ از این گزارش</td></tr>
+  <tr><td>انیمیشن با Animator و حالت‌ها</td><td>شش حالت با ترنزیشن <span class="ltr">Any State</span> برای ضربه، مرگ و داش</td><td><span class="ltr">Runner.controller</span></td></tr>
+  <tr><td>منوی اصلی و منوی توقف جدا</td><td>دو پنل مستقل با فیدِ زمانِ مقیاس‌نشده و ناوبری صفحه‌کلید</td><td><span class="ltr">MainMenuController.cs, PauseMenuController.cs</span></td></tr>
+  <tr><td>نمایش امتیاز فعلی و رکورد</td><td>عدد بزرگ بالای صفحه + برچسب <span class="ltr">BEST</span> که همیشه دیده می‌شود</td><td><span class="ltr">HudController.cs</span></td></tr>
+  <tr><td>ذخیرهٔ رکورد با PlayerPrefs</td><td>کلیدهای <span class="ltr">Runner.HighScore</span> و <span class="ltr">Runner.Runs</span></td><td><span class="ltr">ScoreManager.cs</span></td></tr>
+  <tr><td>امتیاز خلاقانه و افکت‌ها</td><td>گرافیک رویه‌ای، ذرات، شبح داش، لرزش دوربین، نور و بازتاب جاده</td><td>بخش ۱۰</td></tr>
+</table>
+</div>
+
+<div class="page">
+<h2>۳. ساختار پوشه‌ها</h2>
+<table class="kv">
+  <tr><th style="width:34%">مسیر</th><th>نقش</th></tr>
+  <tr><td><span class="ltr">Assets/Scripts/Runtime/Core</span></td><td>ماشین حالت بازی، امتیاز، پالت رنگ، ترتیب رندر و فازها</td></tr>
+  <tr><td><span class="ltr">Assets/Scripts/Runtime/Input</span></td><td>مدیر ورودی و رویدادهای سطح بالا</td></tr>
+  <tr><td><span class="ltr">Assets/Scripts/Runtime/Player</span></td><td>حرکت، سلامت و رانندهٔ انیمیشن بازیکن</td></tr>
+  <tr><td><span class="ltr">Assets/Scripts/Runtime/Interactables</span></td><td>وراث <span class="ltr">Interactable</span>: موانع و سکه</td></tr>
+  <tr><td><span class="ltr">Assets/Scripts/Runtime/World</span></td><td>کنترل جهان، لایه‌های پارالاکس، تولیدکننده و استخر شیء</td></tr>
+  <tr><td><span class="ltr">Assets/Scripts/Runtime/UI</span></td><td>پایهٔ پنل‌ها، HUD و سه منو</td></tr>
+  <tr><td><span class="ltr">Assets/Scripts/Runtime/Fx</span></td><td>ذرات، شبح محو شونده، لرزش دوربین</td></tr>
+  <tr><td><span class="ltr">Assets/Scripts/Editor</span></td><td>خط تولید دارایی، انیمیشن، پریفب و صحنه</td></tr>
+  <tr><td><span class="ltr">Assets/Art</span></td><td>اسپرایت‌ها، کلیپ‌ها و کنترلر انیمیشن تولیدشده</td></tr>
+  <tr><td><span class="ltr">Build/Linux</span></td><td>خروجی اجرایی لینوکس بازی</td></tr>
+</table>
+
+<h2>۴. طراحی شیءگرا</h2>
+<p>ستون فقرات معماری، یک پایهٔ انتزاعی به نام <span class="ltr">Interactable</span> است که چرخهٔ عمر مشترک همهٔ اشیای جاده را نگه می‌دارد: گرفتن <span class="ltr">SpriteRenderer</span> و <span class="ltr">Collider</span>، رنگ‌آمیزی هنگام فعال‌سازی از استخر، و فراخوان <code>OnPickup</code> یا <code>OnHit</code> وقتی بازیکن به آن می‌رسد. دو شاخهٔ اصلی از همین پایه بیرون می‌آیند: <span class="ltr">Obstacle</span> که آسیب می‌زند و <span class="ltr">Collectible</span> که پاداش می‌دهد.</p>
+
+<svg viewBox="0 0 720 470" width="100%" style="direction:ltr" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <marker id="gen" markerWidth="16" markerHeight="12" refX="15" refY="6" orient="auto" markerUnits="userSpaceOnUse">
+      <path d="M0,0 L15,6 L0,12 z" fill="#fff" stroke="#3d1f6e" stroke-width="1.2"/>
+    </marker>
+  </defs>
+  <style>
+    .b { fill:#f2eefb; stroke:#3d1f6e; stroke-width:1.4; rx:6; }
+    .a { fill:#24114a; stroke:#24114a; }
+    .t { font:12.5px 'DejaVu Sans'; fill:#1b1030; }
+    .h { font:600 13px 'DejaVu Sans'; fill:#fff; }
+    .s { font:italic 10.5px 'DejaVu Sans'; fill:#5a4a80; }
+    .l { stroke:#3d1f6e; stroke-width:1.3; fill:none; }
+  </style>
+  <rect x="270" y="10" width="180" height="58" rx="6" class="a"/>
+  <text x="360" y="30" text-anchor="middle" class="h">Interactable</text>
+  <text x="360" y="46" text-anchor="middle" style="font:italic 10.5px 'DejaVu Sans'; fill:#ffd9ec">«abstract» MonoBehaviour</text>
+  <text x="360" y="60" text-anchor="middle" style="font:10px 'DejaVu Sans'; fill:#d9cdf5">Visual, Collider, Spawn(), Despawn()</text>
+
+  <rect x="90" y="120" width="180" height="52" rx="6" class="a"/>
+  <text x="180" y="140" text-anchor="middle" class="h">Obstacle</text>
+  <text x="180" y="156" text-anchor="middle" style="font:italic 10.5px 'DejaVu Sans'; fill:#ffd9ec">«abstract»</text>
+  <text x="180" y="168" text-anchor="middle" style="font:10px 'DejaVu Sans'; fill:#d9cdf5">damage, OnHit(player)</text>
+
+  <rect x="460" y="120" width="180" height="52" rx="6" class="a"/>
+  <text x="550" y="140" text-anchor="middle" class="h">Collectible</text>
+  <text x="550" y="156" text-anchor="middle" style="font:italic 10.5px 'DejaVu Sans'; fill:#ffd9ec">«abstract»</text>
+  <text x="550" y="168" text-anchor="middle" style="font:10px 'DejaVu Sans'; fill:#d9cdf5">value, OnPickup(player)</text>
+
+  <rect x="20" y="235" width="160" height="42" rx="6" class="b"/><text x="100" y="252" text-anchor="middle" class="t">GroundObstacle</text><text x="100" y="267" text-anchor="middle" class="s">lane = ground</text>
+  <rect x="205" y="235" width="120" height="42" rx="6" class="b"/><text x="265" y="252" text-anchor="middle" class="t">AirObstacle</text><text x="265" y="267" text-anchor="middle" class="s">bob + lane Y</text>
+  <rect x="480" y="235" width="120" height="42" rx="6" class="b"/><text x="540" y="256" text-anchor="middle" class="t">Coin</text>
+
+  <rect x="40" y="345" width="130" height="36" rx="6" class="b"/><text x="105" y="367" text-anchor="middle" class="t">GroundSaw</text>
+  <text x="300" y="330" class="s">spike / crate = GroundObstacle</text>
+  <text x="300" y="348" class="s">drone / mine = AirObstacle</text>
+  <text x="300" y="372" class="s">prefabs: 5 hazards + 1 coin</text>
+
+  <path class="l" marker-end="url(#gen)" d="M180,120 L180,96 L355,96 L355,68"/>
+  <path class="l" marker-end="url(#gen)" d="M550,120 L550,96 L375,96 L375,68"/>
+  <path class="l" marker-end="url(#gen)" d="M100,235 L100,200 L160,172"/>
+  <path class="l" marker-end="url(#gen)" d="M265,235 L265,200 L215,172"/>
+  <path class="l" marker-end="url(#gen)" d="M540,235 L540,172"/>
+  <path class="l" marker-end="url(#gen)" d="M105,345 L105,300 L100,277"/>
+</svg>
+<p style="font-size:10pt">نمودار وارثی: پیکان‌ها به سمت کلاس پایه می‌روند. کلاس‌های تیره انتزاعی‌اند.</p>
+
+<table>
+  <tr><th>شیء</th><th>کلاس</th><th>جان</th><th>آسیب</th><th>رفتار</th></tr>
+  <tr><td>میخ فلزی</td><td><span class="ltr">GroundObstacle</span></td><td>زمینی</td><td>۱</td><td>روی آسفالت می‌خوابد و باید رویش پرید</td></tr>
+  <tr><td>جعبه</td><td><span class="ltr">GroundObstacle</span></td><td>زمینی</td><td>۱</td><td>کندتر از مانع دیگر اما پهن‌تر</td></tr>
+  <tr><td>ارهٔ برقی</td><td><span class="ltr">GroundSaw</span></td><td>زمینی</td><td>۲</td><td>می‌چرخد و دو جان می‌گیرد</td></tr>
+  <tr><td>پهپاد</td><td><span class="ltr">AirObstacle</span></td><td>هوایی</td><td>۱</td><td>در ارتفاعی می‌ایستد که با دویدن عادی به آن می‌خوری</td></tr>
+  <tr><td>مین معلق</td><td><span class="ltr">AirObstacle</span></td><td>هوایی</td><td>۲</td><td>بالا و پایین می‌رود و باید از زیرش رد شد</td></tr>
+  <tr><td>سکه</td><td><span class="ltr">Coin</span></td><td>جمع‌کردنی</td><td>۲۵+ امتیاز</td><td>با نرخ ۱٫۳۵ بار در ثانیه می‌چرخد و بالا و پایین می‌کند</td></tr>
+</table>
+</div>
+
+<div class="page">
+<h2>۵. سیستم ورودی</h2>
+<p>تنها نقطهٔ تماس بازی با سخت‌افزار ورودی، کلاس <span class="ltr">GameInputManager</span> است. این کلاس فایل اکشن‌ها را در زمان اجرا باز می‌کند، نقشهٔ <span class="ltr">Gameplay</span> را فقط وقتی بازی در حال اجراست فعال می‌کند و نقشهٔ <span class="ltr">UI</span> را به <span class="ltr">InputSystemUIInputModule</span> می‌سپارد تا منوها هم با صفحه‌کلید کار کنند. بقیهٔ اسکریپت‌ها هیچ‌وقت کنترلر را نمی‌خوانند؛ بلکه به رویدادهای سطح‌بالا مشترک می‌شوند: <span class="ltr">JumpPressed</span>، <span class="ltr">DashPressed</span>، <span class="ltr">PausePressed</span> و <span class="ltr">RestartPressed</span>.</p>
+<table>
+  <tr><th>اکشن</th><th>میان‌برها</th><th>نوع تریگر</th></tr>
+  <tr><td><span class="ltr">Move</span></td><td>کلیدهای <span class="ltr">A</span> / <span class="ltr">D</span> و فلش چپ و راست</td><td>ترکیب محور یک‌بعدی <span class="ltr">1DAxis</span></td></tr>
+  <tr><td><span class="ltr">Jump</span></td><td><span class="ltr">Space</span>، <span class="ltr">W</span>، فلش بالا، <span class="ltr">buttonSouth</span></td><td>شروع و پایان برای پرش با ارتفاع متغیر</td></tr>
+  <tr><td><span class="ltr">Dash</span></td><td><span class="ltr">Shift</span>، <span class="ltr">E</span>، <span class="ltr">buttonWest</span>، ماشپ چپ</td><td>فشار کامل</td></tr>
+  <tr><td><span class="ltr">Pause</span></td><td><span class="ltr">Esc</span>، <span class="ltr">P</span>، <span class="ltr">start</span></td><td>فشار کامل</td></tr>
+  <tr><td><span class="ltr">Restart</span></td><td><span class="ltr">R</span>، <span class="ltr">select</span></td><td>فشار کامل</td></tr>
+</table>
+
+<h2>۶. جهان، پارالاکس و تولید موانع</h2>
+<p><span class="ltr">WorldController</span> تنها منبع «سرعت جهان» است: از ۹ شروع می‌کند، ثانیه‌ای ۰٫۱۸ واحد اضافه می‌کند و در ۲۱ سقف دارد. هر لایهٔ پارالاکس این سرعت را در ضریب خودش ضرب می‌کند، پس فاصله‌ها هرگز با سرعت بازی عوض نمی‌شوند و خط افق تقریباً ثابت می‌ماند.</p>
+<table>
+  <tr><th>لایه</th><th>ضریب سرعت</th><th>نقش</th></tr>
+  <tr><td>آسمان و خورشید خط‌خطی</td><td>۰ (ثابت)</td><td>نقطهٔ ثابت نگاه در افق</td></tr>
+  <tr><td>کوه‌های دوردست</td><td>۰٫۱۲</td><td>عمق بیش از دور</td></tr>
+  <tr><td>شهر نئونی</td><td>۰٫۳۰</td><td>پس‌زمینهٔ میانی</td></tr>
+  <tr><td>یال صخره‌ها</td><td>۰٫۵۵</td><td>مرز زمین</td></tr>
+  <tr><td>جاده و شبکهٔ بنفش</td><td>۱٫۰۰</td><td>لایهٔ مرجع بازی</td></tr>
+  <tr><td>مخروط‌های پیش‌زمینه</td><td>۱٫۳۵</td><td>سرعت را به چشم نشان می‌دهد</td></tr>
+</table>
+<p>هر لایه از دو تایل کنار هم ساخته شده و وقتی یک تایل کامل از صفحه بیرون رفت، به ابتدای صف برمی‌گردد؛ این همان حلقهٔ بی‌پایان است. <span class="ltr">RunnerSpawner</span> اما به‌جای زمان، بر پایهٔ «مسافت» تصمیم می‌گیرد: ۱۴ واحد اول را پاک می‌گذارد تا بازیکن نفس بکشد، و از آن به بعد فاصلهٔ بین موانع را با فرمول «حداقل ۳٫۴ به‌علاوه ۰٫۴۲ به ازای هر واحد سرعت» می‌چیند، پس هرچه سریع‌تر شوی، جاده شلوغ‌تر می‌شود ولی هیچ‌وقت غیرمنصفانه نمی‌شود. ۳۸ درصد وقت‌ها یک ردیف سکه روی جاده می‌نشیند و بعد از هر مانع با احتمال ۵۰ درصد یک سکه پاداش می‌آید.</p>
+<p>هیچ شیئی در حین بازی ساخته یا نابود نمی‌شود: <span class="ltr">ObjectPool</span> همهٔ موانع، سکه‌ها و افکت‌ها را از ابتدا نمونه‌برداری می‌کند و با کلید <span class="ltr">SetActive</span> و ریستِ فیزیک دوباره به صف برمی‌گرداند.</p>
+
+<h2>۷. انیمیشن</h2>
+<p>کامپوننت <span class="ltr">Animator</span> روی بازیکن با یک <span class="ltr">AnimatorController</span> کار می‌کند که شش حالت دارد: دویدن (پیش‌فرض، شش فریم)، پرش، فرود/سقوط، داش، ضربه و مرگ. ورود به حالت‌های ضربه، مرگ و داش از مسیر <span class="ltr">Any State</span> و با پارامتر <span class="ltr">Trigger</span> انجام می‌شود تا در هر لحظه‌ای از بازی قابل وقوع باشند؛ خروج‌ها اما شرطی‌اند و به پارامتر <span class="ltr">Grounded</span> نگاه می‌کنند تا دونده تا روی زمین نیامده به حالت دویدن برنگردد. پارامتر <span class="ltr">Speed</span> سرعت پخش کلیپ دویدن را با سرعت جهان هماهنگ می‌کند، پس پاها هرگز روی آسفالت لیز نمی‌خورند.</p>
+<table>
+  <tr><th>پارامتر</th><th>نوع</th><th>فرستنده</th></tr>
+  <tr><td><span class="ltr">Grounded</span></td><td>Bool</td><td><span class="ltr">PlayerAnimationDriver</span> از بدنهٔ فیزیکی بازیکن</td></tr>
+  <tr><td><span class="ltr">Rising</span></td><td>Bool</td><td>علامت مثبت سرعت عمودی</td></tr>
+  <tr><td><span class="ltr">Speed</span></td><td>Float</td><td>سرعت جهان برای تنظیم نرخ گام</td></tr>
+  <tr><td><span class="ltr">Jump / Dash / Hit / Death</span></td><td>Trigger</td><td>به ترتیب از ورودی، داش، آسیب و مرگ</td></tr>
+</table>
+<p>بازخورد دیداری برخورد دو لایه دارد: کلیپ حالت «ضربه» که حالت بدن را عوض می‌کند، و هم‌زمان رنگ اسپرایت به قرمز آسیب می‌رود و تا پایان پنجرهٔ مصونیت چشمک می‌زند.</p>
+</div>
+
+<div class="page">
+<h2>۸. رابط کاربری</h2>
+<p>هر سه پنل از یک پایهٔ مشترک به نام <span class="ltr">MenuPanel</span> می‌آیند که کارش فقط دو چیز است: نمایش و پنهان‌سازی با محوِ مبتنی بر زمان مقیاس‌نشده (تا وقتی بازی در توقف است هم انیمیشن پنل کار کند) و تصمیم دربارهٔ اینکه دکمه‌ها کلیک‌پذیر باشند. پنل هرگز غیرفعال نمی‌شود، چون غیرفعال شدن اشتراک رویداد فاز را می‌شکند و پنل دیگر بالا نمی‌آمد.</p>
+<ul>
+  <li><b>منوی اصلی:</b> عنوان، رکورد ذخیره‌شده، تعداد دوبی‌ها، دکمه‌های شروع و خروج و راهنمای کنترل‌ها که خودش از فایل اکشن‌ها خوانده می‌شود.</li>
+  <li><b>منوی توقف:</b> وضعیت فعلی امتیاز و رکورد با سه گزینهٔ ادامه، شروع دوباره و بازگشت به منو.</li>
+  <li><b>پنل پایان:</b> امتیاز نهایی، رکورد و پرچم «رکورد تازه» وقتی عدد از قبل بهتر باشد.</li>
+  <li><b>ه‌ی‌دی‌آی:</b> امتیاز جاری با شمارش نرم رو به بالا، برچسب رکورد، نوار سلامت و سه قلب که با هر جان یکی خاموش می‌شود، به‌علاوهٔ نشان <span class="ltr">+25</span> هنگام گرفتن سکه.</li>
+</ul>
+
+<h2>۹. امتیاز و ذخیره‌سازی</h2>
+<p>امتیاز از دو چیز ساخته می‌شود: مسافت (هر واحد جهان ۲ امتیاز) و سکه‌ها (هر کدام ۲۵ امتیاز). در پایان هر دور، اگر عدد از رکورد بهتر باشد در <span class="ltr">PlayerPrefs</span> نوشته و بلافاصله روی دیسک ذخیره می‌شود؛ شمارندهٔ دورها هم در همان فایل نگه داشته می‌شود. در تصاویر بخش بعد، رکورد ۱۳۸ امتیاز از اجرای پیشین خوانده می‌شود که ماندگاری بین دو اجرا را ثابت می‌کند.</p>
+
+<h2>۱۰. افکت‌ها و گرافیک (امتیاز افزوده)</h2>
+<ul>
+  <li><b>گرافیک رویه‌ای:</b> هر ۳۳ اسپرایت با کد و در شبکهٔ پیکسلی ۳۲ واحد در متر کشیده شده‌اند؛ از خورشید خط‌خطی و شهر نیئون تا خودِ دونده با شال‌وطرفی.</li>
+  <li><b>شبح داش:</b> در ۰٫۱۶ ثانیهٔ داش، سه کپی نیمه‌شفاف از بازیکن با فاصله پشت سرش می‌ماند و محو می‌شود.</li>
+  <li><b>انفجار ذرات:</b> برخورد، گرفتن سکه و مرگ هر کدام پروفایل ذرهٔ مخصوص خود را دارند (رنگ، تعداد و پراکندگی متفاوت) از یک استخر مشترک.</li>
+  <li><b>لرزش دوربین:</b> هنگام آسیب و مرگ دوربین چند دسی‌متر می‌لرزد و بعد با میرایی به جای خود برمی‌گردد.</li>
+  <li><b>آهسته‌شدن مرگ:</b> در لحظهٔ آخر مقیاس زمان به ۰٫۳۵ می‌رسد و بعد از ۱٫۱ ثانیه پنل پایان باز می‌شود.</li>
+  <li><b>نور و بازتاب:</b> خط‌های بنفش روی آسفالت و نقطه‌های روشن لبهٔ جاده حس حرکت سریع را تقویت می‌کنند.</li>
+</ul>
+</div>
+
+<div class="page">
+<h2>۱۱. خط تولید دارایی (Pipeline)</h2>
+<p>به‌جای کشیدن دستی اسپرایت‌ها و چیدن دستی صحنه، همه‌چیز با اسکریپت‌های ویرایشگر ساخته می‌شود. نتیجه این است که صحنهٔ بازی، پریفب‌ها و دارایی‌ها همگی بازپذیرند و هیچ تنظیمی گم نمی‌شود.</p>
+<table>
+  <tr><th style="width:30%">مرحله</th><th>کاری که می‌کند</th><th>خروجی</th></tr>
+  <tr><td><span class="ltr">PixelCanvas</span> و <span class="ltr">SpriteWriter</span></td><td>کشیدن پیکسل‌به‌پیکسل روی شبکه، نوشتن PNG و تنظیم <span class="ltr">TextureImporter</span> روی پیکسل‌آرت خالص</td><td>۳۳ اسپرایت در <span class="ltr">Assets/Art/Sprites</span></td></tr>
+  <tr><td><span class="ltr">RunnerAnimations</span></td><td>ساخت کلیپ‌ها، منحنی‌های تعویض اسپرایت و گراف حالت با ترنزیشن‌ها</td><td>۶ کلیپ و <span class="ltr">Runner.controller</span></td></tr>
+  <tr><td><span class="ltr">RunnerPrefabs</span></td><td>ساخت موانع، سکه و افکت‌ها با کالایدر و پارامترهای تراز شده</td><td>۸ پریفب</td></tr>
+  <tr><td><span class="ltr">RunnerSceneBuilder</span></td><td>ساخت سیستم‌ها، جهان، لایه‌های پارالاکس، HUD و سه پنل و سپس سیم‌کشی ارجاع‌ها</td><td><span class="ltr">Assets/Scenes/Game.unity</span></td></tr>
+  <tr><td><span class="ltr">RunnerBuild</span></td><td>تنظیمات پروژه و ساخت اجرای لینوکس از منوی <span class="ltr">Runner</span> یا حالت دسته‌جمعی</td><td><span class="ltr">Build/Linux/NeonRunner</span></td></tr>
+  <tr><td><span class="ltr">Wire</span></td><td>کمک‌کنندهٔ بازتابی برای وصل کردن فیلدهای خصوصی <span class="ltr">SerializeField</span> بدون دستی‌کاری در اینسپکتور</td><td>ارجاع‌های درست در صحنه</td></tr>
+</table>
+<p>اجرای کل خط تولید از منوی <span class="ltr">Runner &gt; Setup Project</span> ممکن است؛ همان مراحل به‌صورت فرمان خطی هم برای <span class="ltr">-batchmode</span> در دسترس‌اند.</p>
+
+<h2>۱۲. نحوهٔ اجرا</h2>
+<p>دو راه وجود دارد. راه اول، اجرای فایل آماده است: در لینوکس کافی است فایل <span class="ltr">Build/Linux/NeonRunner</span> را اجرایی کنی و باز کنی. راه دوم از خود یونیتی است: پوشهٔ پروژه را با <span class="ltr">Unity 6000.6.3f1</span> باز کن، صحنهٔ <span class="ltr">Assets/Scenes/Game.unity</span> را باز و پخش کن.</p>
+<table>
+  <tr><th>کلید</th><th>کارکرد</th></tr>
+  <tr><td><span class="ltr">Space</span></td><td>پرش؛ نگه‌داشتن یعنی پرش بلندتر</td></tr>
+  <tr><td><span class="ltr">Shift</span></td><td>داش سریع به جلو</td></tr>
+  <tr><td><span class="ltr">A</span> / <span class="ltr">D</span></td><td>تغییر موقعیت افقی روی جاده</td></tr>
+  <tr><td><span class="ltr">Esc</span> یا <span class="ltr">P</span></td><td>توقف و منوی توقف</td></tr>
+  <tr><td><span class="ltr">R</span></td><td>شروع دوبارهٔ دور</td></tr>
+  <tr><td><span class="ltr">جهت‌نما + Enter</span></td><td>حرکت بین دکمه‌های منوها</td></tr>
+</table>
+
+<h2>۱۳. نتایج و آزمون</h2>
+<p>بازی چند بار به‌صورت خودکار و با ورودی ساختگی اجرا شد تا همهٔ حالت‌ها ثبت شود. در آخرین اجرا دونده ۲۴۰ امتیاز گرفت؛ پرش با کلید فاصله در همان اجرا ۳٫۲ واحد از زمین اوج گرفت، با هر برخورد یکی از سه جانش کم شد و در صفر جان پنل پایان باز شد. در میانهٔ همان دور و در حالت توقف امتیاز ۱۰۸ ثبت شده است. رکورد پیشین ۱۳۸ امتیاز از اجرای قبل در <span class="ltr">PlayerPrefs</span> خوانده شد و چون امتیاز تازه بیشتر بود، همان لحظه جای خود را به ۲۴۰ داد؛ در تصویر منوی اصلی همان ۱۳۸ دیده می‌شود و در تصویر پایان، عدد ۲۴۰. این دو عدد کنار هم هم ماندگاری رکورد و هم به‌روزرسانی آن را ثابت می‌کنند. نوار سلامت، سه قلب، منوی توقف و منوی پایان همه در تصاویر بخش بعد دیده می‌شوند.</p>
+<footer>گزارش کار طراحی بازی‌های کامپیوتری - تکلیف اول - <span class="ltr">Neon Runner</span></footer>
+</div>
+
+<div class="page gallery">
+<h2>۱۴. تصاویر اجرا</h2>
+<div class="grid">
+  <figure><img class="shot" src="images/01_main-menu.png" alt=""><figcaption>منوی اصلی با رکورد ذخیره‌شده و راهنمای کنترل‌ها</figcaption></figure>
+  <figure><img class="shot" src="images/02_running.png" alt=""><figcaption>حالت دویدن: نوار سلامت کامل، الیه‌های پارالاکس و سکه‌ها</figcaption></figure>
+  <figure><img class="shot" src="images/03_jump.png" alt=""><figcaption>پرش با Space در میانهٔ هوا</figcaption></figure>
+  <figure><img class="shot" src="images/04_dash.png" alt=""><figcaption>داش با Shift و شبح محو شوندهٔ پشت سر بازیکن</figcaption></figure>
+  <figure><img class="shot" src="images/05_hit.png" alt=""><figcaption>برخورد با مانع: قرمز شدن بازیکن، ذرات و لرزش دوربین</figcaption></figure>
+  <figure><img class="shot" src="images/06_pause-menu.png" alt=""><figcaption>منوی توقف جدا با امتیاز جاری و سه گزینه</figcaption></figure>
+  <figure><img class="shot" src="images/07_game-over.png" alt=""><figcaption>پنل پایان، رکورد و گزینه‌های دوباره/منو</figcaption></figure>
+</div>
+</div>
+
+</body>
+</html>
